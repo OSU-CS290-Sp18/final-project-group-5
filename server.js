@@ -1,6 +1,10 @@
 var port = 8080;
 var express = require('express');
 var app = express();
+var db = require('database.js');
+
+db.connect();
+
 app.get('/', function(req, res, next){
   res.status(200).send("It works!");
 });
