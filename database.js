@@ -8,7 +8,10 @@ var secrets = require('./secrets.js');
 //
 //This must be run before doing any other database commands.
 function connect(callback){
-  mongoose.connect('mongodb://' + this.username + ':' + secrets.password + '@' + this.url + '/' + this.dbName);
+  mongoose.connect('mongodb://' + secrets.username +
+  ':' + secrets.password +
+  '@' +
+  secrets.url + '/' + secrets.dbName);
 
   mongoose.connection.on('connected', function(){
     console.log('succesfully connected to database');
@@ -35,38 +38,27 @@ function connect(callback){
 //
 //db = require('database.js')
 //FeedType = require('feedType.js')
-//db.createUser('Drew', [{name : 'CNN', type : 'PODCAST', url : 'http://rss.cnn.com/rss/cnn_topstories.rss'}],
-//      callback(err){
+//db.createUser('Drew', function(err){
 //   if(!err){
 //     console.log('Hooray!');
 //   }else{
 //     //handle error here...
 //   }
 //});
-//
-//Example 2
-//
-//db.createUser('Huong', null, callback(err){
-//  //if err, handle here.
-//}
-async function createUser(name, feeds, callback){
+async function createUser(name, callback){
   console.log('creating user');
   callback = callback || function(){};
   //count the number of users with the proposed name for the user
   User.count({name : name}, function(err, count){
     //if there was an error, handle it
-    //if(err){
-    //  console.log('could not count users');
-    //  callback(err);
-    //}else{
+    if(err){
+      console.log('could not count users');
+      callback(err);
+    }else{
       //if there is no user with the proposed name, continue
-      //if(count <= 0){
+      if(count <= 0){
         var newUser = new User();
         newUser.name = name;
-        //for(let i = 0; i < feeds.length; i++){
-        //  newUser.feeds.push({ name: feeds[i].name, type: feeds[i].type, url: feeds[i].url})
-        //}
-        //adds new user to database
         newUser.save(function (err){
           if (err){
             console.log('Error saving user: ', err);
@@ -76,8 +68,10 @@ async function createUser(name, feeds, callback){
             callback();
           }
         });
-      //}
-    //}
+      }else{
+        callback('User \'' + name + '\' already exists.');
+      }
+    }
   });
 }
 
@@ -108,9 +102,6 @@ function getAllUserNames(callback){
 var getUser = require('./userControl.js');
 module.exports = {
   connect : connect,
-  url : 'classmongo.engr.oregonstate.edu',
-  username : 'cs290_ortegadr',
-  dbName : 'cs290_ortegadr',
   createUser : createUser,
   getUser : getUser,
   getStatus : getStatus,

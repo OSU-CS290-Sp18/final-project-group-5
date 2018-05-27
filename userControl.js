@@ -16,16 +16,18 @@ var getUser = function(_name){
             newFeed.type = type;
             newFeed.url = url;
             user.feeds.push(newFeed);
+            newFeed.users.push(user);
             newFeed.save(function(err){
               if(err){
                 callback(err);
-              }
-            });
-            user.save(function (err){
-              if(!err){
-                callback();
               }else{
-                callback(err);
+                user.save(function (err){
+                  if(!err){
+                    callback();
+                  }else{
+                    callback(err);
+                  }
+                });
               }
             });
           }else{
@@ -33,13 +35,40 @@ var getUser = function(_name){
               if(err){
                 callback(err);
               }else{
-                user.feeds.push(feed);
-                user.save(function (err){
-                  if(!err){
-                    callback();
-                  }else{
-                    callback(err);
-                  }
+                //TODO: check to see if the user already has that feed
+                var hasFeed = false;
+                var numFeeds = user.feeds.length;
+                var parsed = 0;
+                user.feeds.forEach(function(f_id){
+                  Feed.findById(f_id, function(err, f){
+                    parsed++;
+                    if(err){
+                      callback(err);
+                    }else{
+                      if(f.url == url){
+                        hasFeed = true;
+                      }
+                      if(parsed>=numFeeds){
+                        if(hasFeed == false){
+                          user.feeds.push(feed);
+                          feed.users.push(user);
+                          feed.save(function(err){
+                            if(err){
+                              callback(err);
+                            }else{
+                              user.save(function (err){
+                                if(!err){
+                                  callback();
+                                }else{
+                                  callback(err);
+                                }
+                              });
+                            }
+                          });
+                        }
+                      }
+                    }
+                  });
                 });
               }
             });
