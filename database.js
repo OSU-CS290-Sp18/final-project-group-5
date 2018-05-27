@@ -74,6 +74,15 @@ async function createUser(name, callback){
     }
   });
 }
+async function deleteUser(name, callback){
+  User.deleteOne({name : name}, function(err){
+    if(err){
+      callback(err);
+    }else{
+      callback();
+    }
+  });
+}
 
 function getStatus(){
   if(mongoose.connection.readyState == 0){
@@ -87,15 +96,12 @@ function getStatus(){
   }
 }
 
-function getAllUserNames(callback){
+async function getAllUserNames(callback){
   var usernames = [];
   User.find({}, function(err, users) {
-    console.log(users[2]);
     for(let i = 0; i < users.length; i++){
-      //console.log(users[i].name);
       usernames.push(users[i].name);
     }
-    console.log(usernames);
     callback(usernames);
   });
 }
@@ -104,6 +110,7 @@ module.exports = {
   connect : connect,
   createUser : createUser,
   getUser : getUser,
+  deleteUser : deleteUser,
   getStatus : getStatus,
   getAllUserNames : getAllUserNames
 }
