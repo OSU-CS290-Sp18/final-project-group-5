@@ -74,7 +74,7 @@ async function createUser(name, callback){
     }
   });
 }
-async function deleteUser(name, callback){
+async function removeUser(name, callback){
   User.deleteOne({name : name}, function(err){
     if(err){
       callback(err);
@@ -110,7 +110,7 @@ module.exports = {
   connect : connect,
   createUser : createUser,
   getUser : getUser,
-  deleteUser : deleteUser,
+  removeUser : removeUser,
   getStatus : getStatus,
   getAllUserNames : getAllUserNames
 }
