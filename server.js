@@ -1,13 +1,15 @@
 var port = 8080;
 var express = require('express');
 var app = express();
-app.get('/', function(req, res, next){
-  res.status(200).send("It works!");
-});
+var exphbs = require('express-handlebars');
 
-app.get('*', function(req, res, next){
-  res.status(404).send("Page not found.");
-})
+app.engine('handlebars', exphbs());
+app.set('view engine', 'handlebars');
+
+app.use(express.static('public/css'));
+app.use(express.static('.')); //maybe we should specify a public/js folder because we probably don't want to host all files in the root directory
+app.use(express.static('public/html'));
+require("./routes")(app);
 
 app.listen(port, function(err){
   console.log('Server listening on port', port);
