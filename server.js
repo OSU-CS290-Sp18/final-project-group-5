@@ -5,6 +5,19 @@ var exphbs = require('express-handlebars');
 
 app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
+var db = require('database.js');
+
+db.connect(function(err){
+  if(!err){
+    console.log('Succesfully connected to database');
+  }else{
+    console.log('ERROR CONNECTING TO DATABASE: ', err);
+  }
+});
+
+app.get('/', function(req, res, next){
+  res.status(200).send("It works!");
+});
 
 app.use(express.static('public/css'));
 app.use(express.static('.')); //maybe we should specify a public/js folder because we probably don't want to host all files in the root directory
