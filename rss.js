@@ -23,6 +23,7 @@ function parse(url)
         if (err) {
             xmlObj = null;
             console.log("XML Parse Error: ");
+            return null;
         } else {
             xmlObj = result;
         }
