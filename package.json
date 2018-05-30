@@ -18,6 +18,7 @@
   "homepage": "https://github.com/OSU-CS290-Sp18/final-project-group-5#readme",
   "dependencies": {
     "express": "^4.16.3",
+    "request": "^2.87.0",
     "mongoose": "^5.1.2",
     "xml2js": "^0.4.19"
   }
