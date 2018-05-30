@@ -1,0 +1,144 @@
+body {
+	--main-color: #5B6D86; 
+	--main-light-color: #8494AA; 
+
+	--secondary-color: #9CB978;
+	--secondary-light-color: #CFE9AF;
+
+	--tertiary-color: #7C5886;
+	--tertiary-light-color: #A282AB;
+
+	margin: 0px;
+	background-color: var(--main-light-color);
+}
+
+header {
+	display: flex;
+	height:  75px;
+	background-color: var(--main-color);
+}
+
+header a, li{
+	text-decoration: none;
+	list-style: none;
+}
+
+.site-title {
+	flex: 1 0 30%;
+	margin: 0px 0px 0px 10px;
+	font-family: 'Monoton', cursive;
+	font-size: 50px;
+	color: var(--secondary-color);
+}
+
+.navbar{
+	margin: 0px;
+	flex: 1 0 65%;
+	height: 75px;
+}
+
+.navlist{
+	margin: 0px;
+	padding-right: 0px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.navbar-search{
+	flex: 1 0 95%;
+	height: 65px;;
+	margin-top: 4px;
+}
+
+.username{
+	padding-left: 10px;
+	padding-top:  5px;
+	height: 65px;
+	width: 100%;
+
+	font-size: 50px;
+	font-family: 'Roboto Condensed', sans-serif;
+}
+
+#account-settings{
+	flex: 1 0 3%;
+	font-size: 30px;
+	font-color: var(--secondary-color);
+	text-align: center;
+}
+
+#account-settings a{
+	color: var(--secondary-color);
+}
+
+#navbar-search-input{
+	padding-left: 10px;
+	background-color: var(--main-light-color);
+	border-radius: 3px;
+	border:none;
+	height: 65px;
+	font-size: 50px;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+#navbar-search-input:focus{
+	outline: none;
+}
+
+.hidden {
+	display: none;
+}
+
+/*   FEEDER CONTAINER STYLING   */
+
+
+.feeder-container{
+	padding: 10px;
+	font-family: 'Roboto Condensed', sans-serif;
+}
+
+.feed-pane{
+	background-color: var(--tertiary-light-color);
+	padding: 5px;
+	margin-bottom: 5px;
+}
+
+.pane-header{
+	display: flex;
+	align-items: center;
+	color: var(--secondary-color);
+}
+
+.pane-body{
+	display: flex;
+	flex-direction: column-reverse;
+}
+
+.pane-name{
+	padding-left: 10px;
+	margin: 0px;
+}
+
+.update-box{
+	background-color: var(--tertiary-color);
+	padding: 10px;
+	margin-bottom: 5px;
+	display: flex;
+	align-items: center;
+}
+
+.update-icon{
+	text-align: center;
+	background-color: var(--tertiary-light-color);
+	padding: 25px 5px;
+	font-size: 25px;
+	flex: 0 1 5%;
+}
+
+.update-text{
+	margin: 0px;
+	margin-left: 10px;
+}
+

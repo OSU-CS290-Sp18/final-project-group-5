@@ -7,28 +7,18 @@
 
 	<link href="https://fonts.googleapis.com/css?family=Monoton|Roboto+Condensed" rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css" media="screen">
+    <link rel="stylesheet" href="../public/css/style.css" media="screen">
 
     <script src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" defer></script>
-
-    <script src="index.js" charset="utf-8" defer></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.runtime.js"></script>
+	<script src="../../headerTemplate.js" defer></script>
+    <script src="../../index.js" charset="utf-8" defer></script>
 
   </head>
 
-  <body>
-
-    <header>
-      <a href="#"><h1 class="site-title"><i class="far fa-bell"></i> Update.me</h1></a>
-
-      <nav class="navbar">
-        <ul class="navlist">
-		  <li class="navitem navbar-search">
-            <input type="text" id="navbar-search-input" placeholder="Search...">
-		  <li id="account-settings" class="navitem"><a href="#"><i class="fas fa-ellipsis-v"></i></a></li>
-          </li>
-        </ul>
-      </nav>
-    </header>
+  {{> header}}
+  
+  <body id="bodyTag">
 
     <main class="feeder-container">
 
