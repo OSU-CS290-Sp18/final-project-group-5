@@ -5,25 +5,23 @@ var exphbs = require('express-handlebars');
 
 app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
-var db = require('database.js');
+var db = require('./database.js');
 
 db.connect(function(err){
   if(!err){
-    console.log('Succesfully connected to database');
+    app.get('/', function(req, res, next){
+      res.status(200).send("It works!");
+    });
+
+    app.use(express.static('public/css'));
+    app.use(express.static('.')); //maybe we should specify a public/js folder because we probably don't want to host all files in the root directory
+    app.use(express.static('public/html'));
+    require("./routes")(app);
+
+    app.listen(port, function(err){
+      console.log('Server listening on port', port);
+    });
   }else{
-    console.log('ERROR CONNECTING TO DATABASE: ', err);
+    console.log("Error connecting to database!");
   }
-});
-
-app.get('/', function(req, res, next){
-  res.status(200).send("It works!");
-});
-
-app.use(express.static('public/css'));
-app.use(express.static('.')); //maybe we should specify a public/js folder because we probably don't want to host all files in the root directory
-app.use(express.static('public/html'));
-require("./routes")(app);
-
-app.listen(port, function(err){
-  console.log('Server listening on port', port);
 });
