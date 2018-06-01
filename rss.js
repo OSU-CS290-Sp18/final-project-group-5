@@ -1,11 +1,13 @@
-function parse(url)
+function parse(url, callback)
 {
+    
     var request = require('request');
     var xml2js = require('xml2js');
     var parser = xml2js.Parser();
 
     var xmlStr = "";
-    request('url', function (error, response, body) {
+
+    request(url, function (error, response, body) {
         if (error) {
             console.log("URL Request Error: ", error);
             return null;
@@ -14,26 +16,22 @@ function parse(url)
             console.log("Invalid URL");
             return null;
         } else {
-            xmlStr = body;
+            parser.parseString(body, function (err, result) {
+                if (err) {
+                    console.log("XML Parse Error: ", err);
+                    return null;
+                } else {
+                    var feed = {};
+                    feed.title = result.rss.channel[0].title;
+                    feed.items = result.rss.channel[0].item;
+                    return feed;
+                }
+            });
         }
     });
+    
 
-    var xmlObj;
-    parser.parseString(xmlStr, function (error, result) {
-        if (err) {
-            xmlObj = null;
-            console.log("XML Parse Error: ");
-            return null;
-        } else {
-            xmlObj = result;
-        }
-    });
-
-    var feed = {};
-    feed.title = xmlObj.rss.channel[0].title;
-    feed.items = xmlObj.rss.channel[0].item;
-
-    return feed;
+    callback();
 }
 
 module.exports = parse;
