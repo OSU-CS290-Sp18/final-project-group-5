@@ -9,10 +9,6 @@ var db = require('./database.js');
 
 db.connect(function(err){
   if(!err){
-    app.get('/', function(req, res, next){
-      res.status(200).send("It works!");
-    });
-
     app.use(express.static('public/css'));
     app.use(express.static('.')); //maybe we should specify a public/js folder because we probably don't want to host all files in the root directory
     app.use(express.static('public/html'));
