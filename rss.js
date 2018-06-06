@@ -1,39 +1,43 @@
-function parse(url)
+function parse(url, callback)
 {
+    
     var request = require('request');
     var xml2js = require('xml2js');
     var parser = xml2js.Parser();
 
     var xmlStr = "";
-    request('url', function (error, response, body) {
+
+    request(url, function (error, response, body) {
+        var feed = {};
         if (error) {
             console.log("URL Request Error: ", error);
-            return null;
+            feed = null;
             
         } else if (response.statusCode >= 400 & response.statusCode < 600) {
             console.log("Invalid URL");
-            return null;
+            feed = null;
         } else {
-            xmlStr = body;
+            parser.parseString(body, function (err, result) {
+                if (err) {
+                    console.log("XML Parse Error: ", err);
+                    feed = null;
+                } else {
+                    feed.title = result.rss.channel[0].title;
+                    feed.items = [];
+                    for (var i = 0; i < result.rss.channel[0].item.length; i++) {
+                        var elem = result.rss.channel[0].item[i];
+                        var temp = {
+                            "title": elem.title,
+                            "link": elem.link,
+                            "description": elem.description
+                        }
+                        feed.items.push(temp);
+                    }
+                }
+            });
         }
+        callback(feed);
     });
-
-    var xmlObj;
-    parser.parseString(xmlStr, function (error, result) {
-        if (err) {
-            xmlObj = null;
-            console.log("XML Parse Error: ");
-            return null;
-        } else {
-            xmlObj = result;
-        }
-    });
-
-    var feed = {};
-    feed.title = xmlObj.rss.channel[0].title;
-    feed.items = xmlObj.rss.channel[0].item;
-
-    return feed;
 }
 
 module.exports = parse;
