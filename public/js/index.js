@@ -13,15 +13,14 @@ function hideCreateUserModal(){
   createUserModal.classList.add('hidden');
 }
 async function addUserToDB(username, secret, callback){
+  console.log(username + ':' + secret);
   var request = new XMLHttpRequest();
   var requestURL = '/addUser';
   request.open('POST', requestURL);
-  var newUser = {
+  var requestBody = JSON.stringify({
     username : username,
     secret : secret
-  };
-  var requestBody = JSON.stringify(newUser);
-  request.setRequestHeader('Content-Type', 'application/json');
+  });
   request.addEventListener('load', function(event){
     if(event.target.status = 200){
       callback();
@@ -29,11 +28,14 @@ async function addUserToDB(username, secret, callback){
       callback('404');
     }
   });
+  request.setRequestHeader('Content-Type', 'application/json');
   request.send(requestBody);
 }
 function handleModalAcceptClick(){
   var username = document.getElementById('user-name-input').value;
   var secret = document.getElementById('user-secret-input').value;
+  console.log(username);
+  console.log(secret);
   addUserToDB(username, secret, function(err){
     if(!err){
       window.location.replace('/feeds/' + username + '/' + secret);

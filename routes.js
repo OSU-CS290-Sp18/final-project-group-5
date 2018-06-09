@@ -43,6 +43,21 @@ module.exports = function (app) {
 			}
 		});
 	});
+  app.post('/addUser', function(req, res, next){
+    db.createUser(req.body.username, function(err){
+      if(!err){
+        db.getUser(req.body.username).setSecret(req.body.secret, function(err){
+          if(!err){
+            res.status(200).end();
+          }else{
+            res.status(400).end();
+          }
+        });
+      }else{
+        res.status(400).end();
+      }
+    });
+  });
 	app.get('*', function(req, res, next){
 	  res.status(404).send("Page not found.");
 	})
