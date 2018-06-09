@@ -1,14 +1,16 @@
 module.exports = function (app) {
     var db = require("./database.js");
 
-    app.get("/feed/:usersID/:pass", function (req, res, next) {
-        db.getUser(req.params.userID).checkSecret(req.params.pass, function (err, result) {
+    app.get("/feeds/:usersID/:pass", function (req, res, next) {
+        db.getUser(req.params.usersID).checkSecret(req.params.pass, function (err, result) {
             if (result) {
                 res.render('feedpage', {
                     secret: true,
-                    userID: req.params.userID
+                    userID: req.params.usersID
                 })
-            } 
+            } else {
+                res.redirect("/feeds/" + req.params.usersID);
+            }
         })
     })
 
