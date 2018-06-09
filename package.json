@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "nodemon server.js",
-    "build": "handlebars views/partials/header.handlebars -f headerTemplate.js",
+    "build": "handlebars views/partials/header.handlebars -f public/js/headerTemplate.js",
     "prestart": "npm run build"
   },
   "repository": {
@@ -22,8 +22,9 @@
     "express": "^4.16.3",
     "express-handlebars": "^3.0.0",
     "handlebars": "^4.0.11",
-    "request": "^2.87.0",
     "mongoose": "^5.1.2",
+    "path": "^0.12.7",
+    "request": "^2.87.0",
     "xml2js": "^0.4.19"
   }
 }
