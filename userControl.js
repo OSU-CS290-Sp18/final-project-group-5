@@ -130,8 +130,12 @@ var getUser = function(_name){
       if(err){
         callback(err);
       }else{
-        if(user.secret == secret){
-          callback(null, true);
+        if(user){
+          if(user.secret == secret){
+            callback(null, true);
+          }else{
+            callback(null, false);
+          }
         }else{
           callback(null, false);
         }
