@@ -109,6 +109,35 @@ var getUser = function(_name){
       }
     });
   }
+  module.setSecret = async function(secret, callback){
+      User.findOne({name : _name}, function(err, user){
+        if(err){
+          callback(err);
+        }else{
+          user.secret = secret;
+          user.save(function (err){
+            if(err){
+              callback(err);
+            }else{
+              callback();
+            }
+          });
+        }
+      });
+  }
+  module.checkSecret = async function(secret, callback){
+    User.findOne({name : _name}, function(err, user){
+      if(err){
+        callback(err);
+      }else{
+        if(user.secret == secret){
+          callback(null, true);
+        }else{
+          callback(null, false);
+        }
+      }
+    });
+  }
   module.getFeeds = async function(callback){
     var feeds = []
     User.findOne({name : _name}, function(err, user){
