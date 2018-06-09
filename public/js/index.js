@@ -1,18 +1,44 @@
 
 function showCreateUserModal(){
+  console.log('showing modal');
   var modalBackdrop = document.getElementById('modal-backdrop');
   var createUserModal = document.getElementById('create-user-modal');
   modalBackdrop.classList.remove('hidden');
   createUserModal.classList.remove('hidden');
 }
 function hideCreateUserModal(){
-    var modalBackdrop = document.getElementById('modal-backdrop');
-    var createUserModal = document.getElementById('create-user-modal');
-    modalBackdrop.classList.add('hidden');
-    createUserModal.classList.add('hidden');
+  var modalBackdrop = document.getElementById('modal-backdrop');
+  var createUserModal = document.getElementById('create-user-modal');
+  modalBackdrop.classList.add('hidden');
+  createUserModal.classList.add('hidden');
+}
+async function addUserToDB(username, secret, callback){
+  var request = new XMLHttpRequest();
+  var requestURL = '/addUser';
+  request.open('POST', requestURL);
+  var newUser = {
+    username : username,
+    secret : secret
+  };
+  var requestBody = JSON.stringify(newUser);
+  request.setRequestHeader('Content-Type', 'application/json');
+  request.addEventListener('load', function(event){
+    if(event.target.status = 200){
+      callback();
+    }else{
+      callback('404');
+    }
+  });
+  request.send(requestBody);
 }
 function handleModalAcceptClick(){
-    //do request thing
+  var username = document.getElementById('user-name-input').value;
+  var secret = document.getElementById('user-secret-input').value;
+  addUserToDB(username, secret, function(err){
+    if(!err){
+      window.location.replace('/feeds/' + username + '/' + secret);
+    }
+  });
 }
 window.addEventListener('DOMContentLoaded', function () {
 
