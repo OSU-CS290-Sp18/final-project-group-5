@@ -198,6 +198,15 @@ var getUser = function(_name){
       }
     });
   }
+  module.getFeedCount = async function(callback){
+    User.findOne({name : _name}, function(err, user){
+      if(err){
+        callback(err);
+      }else{
+        callback(null, user.feeds.length);
+      }
+    })
+  }
   module.removeFeedByUrl = async function(url){
     User.findOne({name : _name}, function(err, user){
       for(let i = user.feeds.length; i >= 0; i--){

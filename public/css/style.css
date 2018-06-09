@@ -1,6 +1,6 @@
 body {
-	--main-color: #5B6D86; 
-	--main-light-color: #8494AA; 
+	--main-color: #5B6D86;
+	--main-light-color: #8494AA;
 
 	--secondary-color: #9CB978;
 	--secondary-light-color: #CFE9AF;
@@ -142,3 +142,22 @@ header a, li{
 	margin-left: 10px;
 }
 
+#modal-backdrop {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.50);
+}
+
+#create-user-modal {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1010;
+  overflow: scroll;
+}

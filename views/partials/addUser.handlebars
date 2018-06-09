@@ -1,0 +1,29 @@
+<button type="button" id="create-user-button"><i class="fas fa-bullhorn"></i></button>
+
+<div id="modal-backdrop" class="hidden"></div>
+<div id="create-user-modal" class="hidden">
+  <div class="modal-dialog">
+
+    <div class="modal-header">
+      <h3>Create a User</h3>
+      <button type="button" class="modal-close-button">&times;</button>
+    </div>
+
+    <div class="modal-body">
+      <div class="user-input-element">
+        <label for="user-name-input">User Name</label>
+        <textarea id="user-name-input"></textarea>
+      </div>
+      <div class="user-input-element">
+        <label for="user-secret-input">Secret</label>
+        <input type="text" id="user-secret-input">
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="modal-cancel-button">Cancel</button>
+      <button type="button" class="modal-accept-button">Create User</button>
+    </div>
+
+  </div>
+</div>
