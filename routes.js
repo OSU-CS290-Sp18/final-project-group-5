@@ -43,6 +43,25 @@ module.exports = function (app) {
 			}
 		});
 	});
+  app.post('/addUser', function(req, res, next){
+    if(db.isValidUsername(req.body.username.toLowerCase()) == true){
+      db.createUser(req.body.username.toLowerCase(), function(err){
+        if(!err){
+          db.getUser(req.body.username.toLowerCase()).setSecret(req.body.secret, function(err){
+            if(!err){
+              res.status(200).end();
+            }else{
+              res.status(500).end();
+            }
+          });
+        }else{
+          res.status(500).end();
+        }
+      });
+    }else{
+      res.status(400).end();
+    }
+  });
 	app.get('*', function(req, res, next){
 	  res.status(404).send("Page not found.");
 	})

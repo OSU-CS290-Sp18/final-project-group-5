@@ -16,19 +16,22 @@ async function addUserToDB(username, secret, callback){
   var request = new XMLHttpRequest();
   var requestURL = '/addUser';
   request.open('POST', requestURL);
-  var newUser = {
+  var requestBody = JSON.stringify({
     username : username,
     secret : secret
-  };
-  var requestBody = JSON.stringify(newUser);
-  request.setRequestHeader('Content-Type', 'application/json');
+  });
   request.addEventListener('load', function(event){
-    if(event.target.status = 200){
+    console.log(event.target.status);
+    if(event.target.status == 200){
       callback();
-    }else{
+    }if(event.target.status == 400){
+      callback('404');
+    }
+    else{
       callback('404');
     }
   });
+  request.setRequestHeader('Content-Type', 'application/json');
   request.send(requestBody);
 }
 function handleModalAcceptClick(){

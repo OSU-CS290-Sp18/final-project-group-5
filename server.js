@@ -3,11 +3,13 @@ var express = require('express');
 var app = express();
 var exphbs = require('express-handlebars');
 var path = require('path');
+var bodyParser = require('body-parser');
 
 app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
 var db = require('./database.js');
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(__dirname + '/public'));
+app.use(bodyParser.json());
 
 db.connect(function(err){
   if(!err){
