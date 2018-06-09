@@ -1,4 +1,5 @@
-function parse(url, callback){
+function parse(url, callback)
+{
     
     var request = require('request');
     var xml2js = require('xml2js');
@@ -29,6 +30,7 @@ function parse(url, callback){
                             "title": elem.title,
                             "link": elem.link,
                             "description": stripHtml(elem.description)
+                            "description": elem.description
                         }
                         feed.items.push(temp);
                     }
@@ -74,7 +76,6 @@ function parse(url, callback){
 
 		return returnText;
 	};
-
 }
 
 module.exports = parse;

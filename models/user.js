@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var Feed = require('./feed.js');
 var userSchema = mongoose.Schema({
   name : String,
+  secret : String,
   feeds : [{type:mongoose.Schema.Types.ObjectId, ref : 'Feed'}]
 });
 userSchema.methods.addFeed = function(name, type, url){
