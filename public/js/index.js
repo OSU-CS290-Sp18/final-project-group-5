@@ -13,7 +13,6 @@ function hideCreateUserModal(){
   createUserModal.classList.add('hidden');
 }
 async function addUserToDB(username, secret, callback){
-  console.log(username + ':' + secret);
   var request = new XMLHttpRequest();
   var requestURL = '/addUser';
   request.open('POST', requestURL);
@@ -22,9 +21,13 @@ async function addUserToDB(username, secret, callback){
     secret : secret
   });
   request.addEventListener('load', function(event){
-    if(event.target.status = 200){
+    console.log(event.target.status);
+    if(event.target.status == 200){
       callback();
-    }else{
+    }if(event.target.status == 400){
+      callback('404');
+    }
+    else{
       callback('404');
     }
   });
@@ -34,8 +37,6 @@ async function addUserToDB(username, secret, callback){
 function handleModalAcceptClick(){
   var username = document.getElementById('user-name-input').value;
   var secret = document.getElementById('user-secret-input').value;
-  console.log(username);
-  console.log(secret);
   addUserToDB(username, secret, function(err){
     if(!err){
       window.location.replace('/feeds/' + username + '/' + secret);
