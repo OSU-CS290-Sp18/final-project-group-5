@@ -1,6 +1,6 @@
-module.exports = function(app, db){
+module.exports = function(app, db1){
 
-
+	var db = require('./database.js');
 	app.get('/feeds/:userID', function(req, res, next){
 		db.getUser(req.params.userID).exists(function(err, value){
 			if(!err){

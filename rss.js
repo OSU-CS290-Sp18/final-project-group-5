@@ -1,6 +1,6 @@
 function parse(url, callback)
 {
-    
+
     var request = require('request');
     var xml2js = require('xml2js');
     var parser = xml2js.Parser();
@@ -12,7 +12,7 @@ function parse(url, callback)
         if (error) {
             console.log("URL Request Error: ", error);
             feed = null;
-            
+
         } else if (response.statusCode >= 400 & response.statusCode < 600) {
             console.log("Invalid URL");
             feed = null;
@@ -30,7 +30,6 @@ function parse(url, callback)
                             "title": elem.title,
                             "link": elem.link,
                             "description": stripHtml(elem.description)
-                            "description": elem.description
                         }
                         feed.items.push(temp);
                     }
@@ -46,7 +45,7 @@ function parse(url, callback)
 		returnText= returnText.replace(/<br>/gi, "\n");
 		returnText= returnText.replace(/<br\s\/>/gi, "\n");
 		returnText=returnText.replace(/<br\/>/gi, "\n");
-		
+
 		//-- remove URLs within string
 		returnText=returnText.replace(/\(http.*\)/, "");
 
