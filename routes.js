@@ -1,6 +1,28 @@
-module.exports = function (app) {
-    var db = require("./database.js");
+module.exports = function(app, db){
 
+
+	app.get('/feeds/:userID', function(req, res, next){
+		db.getUser(req.params.userID).exists(function(err, value){
+			if(!err){
+				if(value){
+					db.getUser(req.params.userID).getFeeds(function(err, feeds){
+						if(!err){
+							var context;
+							require('./generateContext')(req.params.userID, feeds, function(context){
+								res.status(200).render('feedpage', context);
+								});
+							}
+						else{
+							res.status(404).send("Feeds for user not found");
+						}
+					});
+				}
+			}
+			else{
+				res.status(404).send("User not found, make new page.");
+			}
+		});
+	});
     app.get("/feeds/:usersID/:pass", function (req, res, next) {
         db.getUser(req.params.usersID).checkSecret(req.params.pass, function (err, result) {
             if (result) {
@@ -13,13 +35,6 @@ module.exports = function (app) {
             }
         })
     })
-
-	app.get('/feeds/:userID', function(req, res, next){
-    console.log(req.params.userID);
-		res.render('feedpage', {
-			userID: req.params.userID
-		});
-	});
   app.get('/', function(req, res, next){
 		var db = require('./database.js');
 		var users = [];
