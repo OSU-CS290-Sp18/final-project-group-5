@@ -1,16 +1,46 @@
 module.exports = function(app, db1){
 
 	var db = require('./database.js');
-	app.get('/feeds/:userID', function(req, res, next){
+	app.get('/feeds/:userID/:pass?', function(req, res, next){
 		db.getUser(req.params.userID).exists(function(err, value){
 			if(!err){
 				if(value){
 					db.getUser(req.params.userID).getFeeds(function(err, feeds){
 						if(!err){
+							console.log(feeds);
 							var context;
-							require('./generateContext')(req.params.userID, feeds, function(context){
-								res.status(200).render('feedpage', context);
+							if(feeds.length == 0){
+								res.status(200).render('feedpage', {
+									"userID" : "Get some feeds, buddy!"
 								});
+							}
+							if(req.params.pass){
+								console.log("have pass");
+								console.log("PW: " + req.params.pass);
+								db.getUser(req.params.userID).checkSecret(req.params.pass, function (err, result) {
+									console.log("in check secret callback");
+									console.log("result: " + result);
+									if (result){
+										console.log("have correct pass");
+
+										require('./generateContext')(req.params.userID, true, feeds, function(context){
+											res.status(200).render('feedpage', context);
+											});
+									}
+									else{
+										console.log("have incorrect pass");
+										require('./generateContext')(req.params.userID, false, feeds, function(context){
+											res.status(200).render('feedpage', context);
+											});
+									}
+								});
+							}
+							else{
+										require('./generateContext')(req.params.userID, false, feeds, function(context){
+											res.status(200).render('feedpage', context);
+											});
+
+							}
 							}
 						else{
 							res.status(404).send("Feeds for user not found");
@@ -23,26 +53,6 @@ module.exports = function(app, db1){
 			}
 		});
 	});
-    app.get("/feeds/:usersID/:pass", function (req, res, next) {
-        db.getUser(req.params.usersID).checkSecret(req.params.pass, function (err, result) {
-            if (result) {
-                res.render('feedpage', {
-                    secret: true,
-                    userID: req.params.usersID
-                })
-            } else {
-                res.redirect("/feeds/" + req.params.usersID);
-            }
-        });
-    });
-
-	app.get('/feeds/:userID', function(req, res, next){
-    console.log(req.params.userID);
-		res.render('feedpage', {
-			userID: req.params.userID
-		});
-	});
-
 	app.post("/feeds/:userID/:pass/addFeed", function (req, res, next) {
 	    
 	    db.getUser(req.params.userID).checkSecret(req.params.pass, function (err, result) {
@@ -67,7 +77,6 @@ module.exports = function(app, db1){
 	        }
 	    });
 	});
-
 
   app.get('/', function(req, res, next){
 		var db = require('./database.js');
