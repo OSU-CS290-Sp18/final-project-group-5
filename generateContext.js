@@ -1,13 +1,14 @@
-module.exports = function(id, feeds, callback){
+module.exports = function(id, secretVal, feeds, callback){
 	var feedArr = [];
 	var rssParser = require("./rss");
 
 	getAllPages(feeds, function(feedArr){
 		var context = {
 		"userID": id,
+		"secret": secretVal,
 		"feed": feedArr
 		}
-		if(feedArr.length == feeds.length * 3){
+		if(feedArr.length == (feeds.length * 3)){
 			callback(context);
 
 		}
