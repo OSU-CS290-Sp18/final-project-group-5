@@ -6,11 +6,12 @@
     <title>Update.me</title>
 
 	<link href="https://fonts.googleapis.com/css?family=Monoton|Roboto+Condensed" rel="stylesheet">
-  <link rel="stylesheet" href="/css/style.css" media="screen">
+    <link rel="stylesheet" href="/css/style.css" media="screen">
 
     <script src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" defer></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.runtime.js"></script>
-	<script src="js/headerTemplate.js"></script>
+	<script src="/js/headerTemplate.js" charset="utf-8" defer></script>
+    <script src="/js/feedpage.js" charset="utf-8" defer></script>
 
   </head>
 
@@ -18,36 +19,60 @@
 
   <body id="bodyTag">
 
-    <main class="feeder-container">
+      <main class="feeder-container">
 
-      <article class="feed-pane">
-		  <div class="pane-header">
-			<i class="add-icon fas fa-plus"></i>
-			<h2 class="pane-name">Blogs</h2>
-		  </div>
-		  <div class="pane-body">
+          <article class="feed-pane">
+              <div class="pane-header">
+                  <i class="add-icon fas fa-plus"></i>
+                  <h2 class="pane-name">Blogs</h2>
+              </div>
+              <div class="pane-body">
 
-			  {{#each feed}}
-				<div class="update-box">
-					<div class="update-icon">
-				  <a href="#"><i class="fas fa-exclamation"></i></a>
-					</div>
-					<div class="update-text">
-					  <h3 class="update-title"><a href="#">{{title}}</a></h3>
-					  <p class="update-content">
-						{{content}}
-					  </p>
-					</div>
-				</div>
-			  {{/each}}
-            </div>
-      </article>
+                  {{#each feed}}
+                  <div class="update-box">
+                      <div class="update-icon">
+                          <a href="#"><i class="fas fa-exclamation"></i></a>
+                      </div>
+                      <div class="update-text">
+                          <h3 class="update-title"><a href="#">{{title}}</a></h3>
+                          <p class="update-content">
+                              {{content}}
+                          </p>
+                      </div>
+                  </div>
+                  {{/each}}
+              </div>
+          </article>
 
-      {{#if secret}}
-        <button></button>
-      {{/if}}
+          {{#if secret}}
+              <button type="button" id="create-feed-button"><i class="fas fa-bullhorn"></i></button>
+
+              <div id="modal-backdrop" class="hidden"></div>
+              <div id="create-feed-modal" class="hidden">
+                  <div class="modal-dialog">
+
+                      <div class="modal-header">
+                          <h3>Add new Feed</h3>
+                          <button type="button" class="modal-close-button">&times;</button>
+                      </div>
+
+                      <div class="modal-body">
+                          <div class="feed-input-element">
+                              <label for="feed-name-input">Feed URL</label>
+                              <textarea id="feed-name-input"></textarea>
+                          </div>
+                      </div>
+
+                      <div class="modal-footer">
+                          <button type="button" class="modal-cancel-button">Cancel</button>
+                          <button type="button" class="modal-accept-button">Add Feed</button>
+                      </div>
+
+                  </div>
+              </div>
+          {{/if}}
 
 
-    </main>
+      </main>
   </body>
 </html>

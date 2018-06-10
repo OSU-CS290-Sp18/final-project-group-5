@@ -11,8 +11,8 @@ module.exports = function (app) {
             } else {
                 res.redirect("/feeds/" + req.params.usersID);
             }
-        })
-    })
+        });
+    });
 
 	app.get('/feeds/:userID', function(req, res, next){
     console.log(req.params.userID);
@@ -20,6 +20,32 @@ module.exports = function (app) {
 			userID: req.params.userID
 		});
 	});
+
+	app.post("/feeds/:userID/:pass/addFeed", function (req, res, next) {
+	    console.log(req.body);
+	    db.getUser(req.params.userID).checkSecret(req.params.pass, function (err, result) {
+	        if (result) {
+	            var rss = require("./rss.js");
+	            rss(req.body.feedURL, function (feed) {
+	                if (!feed) {
+	                    res.status("400").send("Invalid URL");
+	                } else {
+	                    db.getUser(req.params.userID).addFeed(feed.title, null, req.body.feedURL, function (err) {
+	                        if (err) {
+	                            res.status("500").send("Error adding feed to database");
+	                        } else {
+	                            res.status("200").send();
+	                        }
+	                    });
+	                }
+	            });
+	        } else {
+	            res.status("400").send("Invalid Password");
+	            console.log(result);
+	        }
+	    });
+	});
+
   app.get('/', function(req, res, next){
 		var db = require('./database.js');
 		var users = [];
@@ -42,7 +68,8 @@ module.exports = function (app) {
 				});
 			}
 		});
-	});
+  });
+
 	app.get('*', function(req, res, next){
 	  res.status(404).send("Page not found.");
 	})
