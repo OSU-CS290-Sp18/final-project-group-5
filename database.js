@@ -105,6 +105,16 @@ async function getAllUserNames(callback){
     callback(usernames);
   });
 }
+
+function isValidUsername(username){
+  if(username.indexOf(' ') == -1){
+    console.log('returning true');
+    return true;
+  }else{
+    console.log('returning false: ' + username.indexOf(' '));
+    return false;
+  }
+}
 var getUser = require('./userControl.js');
 module.exports = {
   connect : connect,
@@ -112,5 +122,6 @@ module.exports = {
   getUser : getUser,
   removeUser : removeUser,
   getStatus : getStatus,
-  getAllUserNames : getAllUserNames
+  getAllUserNames : getAllUserNames,
+  isValidUsername : isValidUsername
 }
