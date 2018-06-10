@@ -275,3 +275,63 @@ header a, li{
   font-size: 36px;
   font-weight: 400;
 }
+
+#create-feed-button {
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    height: 60px;
+    width: 60px;
+    border: none;
+    border-radius: 30px;
+    font-size: 30px;
+    background-color: var(--secondary-light-color);
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+#create-feed-button:hover,
+#create-feed-button:focus {
+    right: 27px;
+    bottom: 27px;
+    height: 66px;
+    width: 66px;
+    border-radius: 33px;
+    font-size: 36px;
+    background-color: var(--secondary-color);
+}
+
+#create-feed-button:focus {
+    outline: none;
+}
+
+#create-user-button {
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    height: 60px;
+    width: 60px;
+    border: none;
+    border-radius: 30px;
+    font-size: 30px;
+    background-color: var(--secondary-light-color);
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+#create-user-button:hover,
+#create-user-button:focus {
+    right: 27px;
+    bottom: 27px;
+    height: 66px;
+    width: 66px;
+    border-radius: 33px;
+    font-size: 36px;
+    background-color: var(--secondary-color);
+}
+
+#create-user-button:focus {
+    outline: none;
+}
