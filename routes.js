@@ -53,6 +53,30 @@ module.exports = function(app, db1){
 			}
 		});
 	});
+	app.post("/feeds/:userID/:pass/addFeed", function (req, res, next) {
+	    
+	    db.getUser(req.params.userID).checkSecret(req.params.pass, function (err, result) {
+	        if (result) {
+	            var rss = require("./rss.js");
+	            rss(req.body.feedURL, function (feed) {
+	                if (!feed) {
+	                    res.status("400").send("Invalid URL");
+	                } else {
+	                    db.getUser(req.params.userID).addFeed(feed.title, null, req.body.feedURL, function (err) {
+	                        if (err) {
+	                            res.status("500").send("Error adding feed to database");
+	                        } else {
+	                            res.status("200").send();
+	                        }
+	                    });
+	                }
+	            });
+	        } else {
+	            res.status("400").send("Invalid Password");
+	            console.log(result);
+	        }
+	    });
+	});
 
   app.get('/', function(req, res, next){
 		var db = require('./database.js');
@@ -76,7 +100,8 @@ module.exports = function(app, db1){
 				});
 			}
 		});
-	});
+  });
+
   app.post('/addUser', function(req, res, next){
     if(db.isValidUsername(req.body.username.toLowerCase()) == true){
       db.createUser(req.body.username.toLowerCase(), function(err){
@@ -96,6 +121,7 @@ module.exports = function(app, db1){
       res.status(400).end();
     }
   });
+
 	app.get('*', function(req, res, next){
 	  res.status(404).send("Page not found.");
 	})
