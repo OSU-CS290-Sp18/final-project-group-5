@@ -44,7 +44,7 @@ module.exports = function(app, db1){
 	});
 
 	app.post("/feeds/:userID/:pass/addFeed", function (req, res, next) {
-	    console.log(req.body);
+	    
 	    db.getUser(req.params.userID).checkSecret(req.params.pass, function (err, result) {
 	        if (result) {
 	            var rss = require("./rss.js");

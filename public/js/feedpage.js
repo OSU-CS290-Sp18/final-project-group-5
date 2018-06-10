@@ -13,7 +13,7 @@ createBtn.addEventListener("click", function (event) {
 })
 
 modal.addEventListener("click", function (event) {
-    var feedUrl = event.currentTarget.querySelector("#feed-name-input");
+    var feedUrl = event.currentTarget.querySelector("#feed-name-input").value;
 
     if (event.target.classList.contains("modal-accept-button")) {
         if (feedUrl) {
@@ -22,7 +22,7 @@ modal.addEventListener("click", function (event) {
             var url = window.location.pathname + '/addFeed';
             console.log(url);
             request.open("POST", url);
-
+            console.log(feedUrl);
             var reqBody = JSON.stringify({
                 feedURL : feedUrl
             });
@@ -30,7 +30,7 @@ modal.addEventListener("click", function (event) {
             request.addEventListener('load', function (event) {
                 if (event.target.status === 200) {
                     location.reload();
-                    console.log("reload done");
+                    feedUrl = "";
                 } else {
                     alert("Error adding feed: " + event.target.response);
                 }
@@ -41,7 +41,9 @@ modal.addEventListener("click", function (event) {
         } else {
             alert("URL is empty!");
         }
-    } else {
-        console.log("click");
+    } else if (event.target.classList.contains("modal-close-button") ||
+                event.target.classList.contains("modal-cancel-button")) {
+        event.currentTarget.querySelector("#feed-name-input").value = "";
+        toggleModal();
     }
 })
