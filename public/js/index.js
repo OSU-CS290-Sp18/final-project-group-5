@@ -11,6 +11,8 @@ function hideCreateUserModal(){
   var createUserModal = document.getElementById('create-user-modal');
   modalBackdrop.classList.add('hidden');
   createUserModal.classList.add('hidden');
+  document.getElementById('user-name-input').value = '';
+  document.getElementById('user-secret-input').value = '';
 }
 async function addUserToDB(username, secret, callback){
   var request = new XMLHttpRequest();
