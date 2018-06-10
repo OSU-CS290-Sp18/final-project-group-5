@@ -2,7 +2,7 @@ var modal = document.getElementById("create-feed-modal");
 function toggleModal()
 {
     var backdrop = document.getElementById("modal-backdrop");
-    //backdrop.classList.toggle("hidden");
+    backdrop.classList.toggle("hidden");
     modal.classList.toggle("hidden");
      
 }
