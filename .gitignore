@@ -12,7 +12,6 @@ pids
 *.pid.lock
 
 # Secrets
-secrets.js
 
 # Test Files
 *_test.js
