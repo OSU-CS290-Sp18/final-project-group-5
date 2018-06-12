@@ -10,11 +10,22 @@ module.exports = function(app, db1){
 							console.log(feeds);
 							var context;
 							if(feeds.length == 0){
-								res.status(200).render('feedpage', {
-									"userID" : "Get some feeds, buddy!"
-								});
+								if(req.params.pass){
+									db.getUser(req.params.userID).checkSecret(req.params.pass, function (err, result) {
+										var context = {
+											"userID": "Get some feeds, " + req.params.userID + "!",
+											"secret": result,
+											"feed": []
+										}
+										res.status(200).render('feedpage', context);
+									});
+								}else{
+									res.status(200).render('feedpage', {
+										"userID" : req.params.userID + " has no feeds!"
+									});
+								}
 							}
-							if(req.params.pass){
+							else if(req.params.pass){
 								console.log("have pass");
 								console.log("PW: " + req.params.pass);
 								db.getUser(req.params.userID).checkSecret(req.params.pass, function (err, result) {
@@ -54,7 +65,7 @@ module.exports = function(app, db1){
 		});
 	});
 	app.post("/feeds/:userID/:pass/addFeed", function (req, res, next) {
-	    
+
 	    db.getUser(req.params.userID).checkSecret(req.params.pass, function (err, result) {
 	        if (result) {
 	            var rss = require("./rss.js");
